@@ -1,4 +1,4 @@
-package com.santos.facebookapi;
+package com.santos.facebookapi; // Make sure this package name matches yours
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,18 +9,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig {
 
+    // This line reads the "ALLOWED_ORIGINS" variable from Render
+    @Value("${ALLOWED_ORIGINS}")
+    private String allowedOrigins;
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
-            @Value("${ALLOWED_ORIGINS:http://localhost:5173}")
-            private String allowedOrigins;
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Allow all endpoints
-                        .allowedOrigins(allowedOrigins.split(",")) // Support multiple origins separated by commas
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                registry.addMapping("/api/**") // Only allow API endpoints
+                        .allowedOrigins(allowedOrigins) // Use the variable
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true); // If using cookies or authentication headers
+                        .allowCredentials(true);
             }
         };
     }

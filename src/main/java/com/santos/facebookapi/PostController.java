@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/api/posts")
 @CrossOrigin(origins = {
         "http://localhost:5137",
-        "FRONTEND LINK HEREhttps://facebookui-11sc.onrender.com"
+        "https://post-ui-fz0e.onrender.com"
 })
 public class PostController {
 
